@@ -7,8 +7,9 @@
     var links = [];
     for (var i=0; i<audioDivs.length; i+=1) {
         var inp = audioDivs[i].getElementsByTagName('input')[0];
-        links.push(inp.value.replace('https://', 'http://'));
-    }
+        if (inp) {
+            links.push(inp.value.replace('https://', 'http://'));
+        }
 
     var divText = document.createElement('div');
     divText.innerHTML = links.join('<br>');
