@@ -10,7 +10,7 @@
         if (inp) {
             links.push(inp.value.replace('https://', 'http://'));
         }
-
+    }
     var divText = document.createElement('div');
     divText.innerHTML = links.join('<br>');
 
