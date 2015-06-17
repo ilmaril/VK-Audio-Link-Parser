@@ -1,6 +1,3 @@
-/*Букмарклет собирает с открытой страницы ВК все доступные аудиозаписи и
-выводит их ссылки в диве который открыт поверх всех остальных элементов.*/
-
 (function() {
     var audioDivs = document.body.getElementsByClassName('audio');
 
@@ -11,37 +8,62 @@
             links.push(inp.value.replace('https://', 'http://'));
         }
     }
-    var divText = document.createElement('div');
-    divText.innerHTML = links.join('<br>');
 
     var mainDiv = document.createElement('div');
-    mainDiv.setAttribute('id', 'links_list');
-    mainDiv.style.overflow = 'auto';
+    mainDiv.style.zIndex = '100';
     mainDiv.style.position = 'fixed';
-    mainDiv.style.top = '25%';
-    mainDiv.style.left = '20%';
-    mainDiv.style.border = '1px solid #d6e9c6';
     mainDiv.style.borderRadius = '4px';
-    mainDiv.style.backgroundColor = '#dff0d8';
-    mainDiv.style.color = '#3c763d';
-    mainDiv.style.zIndex = '10';
     mainDiv.style.width = '50%';
-    mainDiv.style.height = '60%';
+    mainDiv.style.top = '15%';
+    mainDiv.style.left = '20%';
+    mainDiv.style.border = '3px solid #2B587A';
+    mainDiv.style.backgroundColor = '#FFF';
 
-    var closeButton = document.createElement('button');
-    closeButton.innerHTML = 'Close';
-    closeButton.onclick = function() {mainDiv.style.display = 'none';};
+    var closeBtn = document.createElement('button');
+    closeBtn.innerHTML = 'Close';
+    closeBtn.style.borderRadius = '2px';
+    closeBtn.style.backgroundColor = '#6383A8';
+    closeBtn.style.color = '#FFF';
+    closeBtn.style.border = '0';
+    closeBtn.style.padding = '5px 10px';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.onclick = function() {mainDiv.style.display = 'none';};
 
-    var span = document.createElement('span');
-    span.style.fontSize = '14pt';
-    span.innerHTML = 'Find ' + links.length + ' audios<br><br>';
+    var info = document.createElement('div');
+    info.style.fontSize = '14pt';
+    info.style.color = '#2B587A';
+    info.innerHTML = 'Found ' + links.length + ' audios';
 
-    var closeScriptElem = document.createElement('script');
 
-    mainDiv.appendChild(closeButton);
-    mainDiv.appendChild(closeScriptElem);
-    mainDiv.appendChild(span);
-    mainDiv.appendChild(divText);
+    var header = document.createElement('div');
+    header.style.backgroundColor = '#E9EDF1';
+    header.style.position = 'relative';
+    header.style.top = '0px';
+    header.style.borderBottom = '2px solid #d9e0e7';
+    header.style.margin = 'auto';
+    header.style.textAlign = 'center';
+
+    header.appendChild(info);
+    header.appendChild(closeBtn);
+
+
+    var content = document.createElement('div');
+    var olBegin = '<ol><li>';
+    var olEnd = '</li></ol>';
+    var olContent = links.join('</li><li>');
+    if (links.length) {
+        content.innerHTML = (olBegin + olContent + olEnd);
+    }
+    else {
+        content.innerHTML = '<center><h1>No audios on the page</h1></center>';
+    }
+
+    content.style.overflow = 'auto';
+    content.style.position = 'relative';
+    content.style.width = '100%';
+    content.style.height = '300px';
+
+    mainDiv.appendChild(header);
+    mainDiv.appendChild(content);
     document.body.appendChild(mainDiv);
-
 })()
