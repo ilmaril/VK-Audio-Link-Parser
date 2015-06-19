@@ -1,10 +1,10 @@
-(function() {
+javascript:(function() {
     var audioDivs = document.body.getElementsByClassName('audio');
 
     var links = [];
     for (var i=0; i<audioDivs.length; i+=1) {
         var inp = audioDivs[i].getElementsByTagName('input')[0];
-        if (inp) {
+        if (inp && inp.value.startsWith('http')) {
             links.push(inp.value.replace('https://', 'http://'));
         }
     }
@@ -48,11 +48,8 @@
 
 
     var content = document.createElement('div');
-    var olBegin = '<ol><li>';
-    var olEnd = '</li></ol>';
-    var olContent = links.join('</li><li>');
     if (links.length) {
-        content.innerHTML = (olBegin + olContent + olEnd);
+        content.innerHTML = links.join('<br>');
     }
     else {
         content.innerHTML = '<center><h1>No audios on the page</h1></center>';
