@@ -1,11 +1,17 @@
 javascript:(function() {
     var audioDivs = document.body.getElementsByClassName('audio');
 
-    var links = [];
+    var audios = [];
     for (var i=0; i<audioDivs.length; i+=1) {
-        var inp = audioDivs[i].getElementsByTagName('input')[0];
-        if (inp && inp.value.startsWith('http')) {
-            links.push(inp.value.replace('https://', 'http://'));
+        /*Get the URL of the audio file.*/
+        var audioUrlInput = audioDivs[i].getElementsByTagName('input')[0];
+        if (audioUrlInput && audioUrlInput.value.startsWith('http')) {
+            var audioUrl = audioUrlInput.value.replace('https://', 'http://');
+            /*Get author and title of the audio file*/
+            var audioTitle = audioDivs[i].getElementsByClassName('title_wrap')[0];
+            /*Get song duration.*/
+            var duration = audioUrl.split(',').pop();
+            audios.push({"url": audioUrl, "title": audioTitle.textContent.replace('–', '-'), "duration": duration});
         }
     }
 
@@ -32,7 +38,7 @@ javascript:(function() {
     var info = document.createElement('div');
     info.style.fontSize = '14pt';
     info.style.color = '#2B587A';
-    info.innerHTML = 'Found ' + links.length + ' audios';
+    info.innerHTML = 'Found ' + audios.length + ' audios';
 
 
     var header = document.createElement('div');
@@ -48,8 +54,13 @@ javascript:(function() {
 
 
     var content = document.createElement('div');
-    if (links.length) {
-        content.innerHTML = links.join('<br>');
+    if (audios.length) {
+        /*content.innerHTML = audios.join('<br>');*/
+        var playlistContent = '#EXTM3U' + '<br><br>';
+        for (var i=0; i<audios.length; i++) {
+            playlistContent += '#EXTINF:'+audios[i]['duration']+','+audios[i]['title']+'<br>'+audios[i]['url']+'<br><br>';
+        }
+        content.innerHTML = playlistContent;
     }
     else {
         content.innerHTML = '<center><h1>No audios on the page</h1></center>';
