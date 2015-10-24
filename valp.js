@@ -33,7 +33,7 @@ javascript:(function() {
     closeBtn.style.border = '0';
     closeBtn.style.padding = '5px 10px';
     closeBtn.style.cursor = 'pointer';
-    closeBtn.onclick = function() {mainDiv.style.display = 'none';};
+    closeBtn.onclick = function() {document.body.removeChild(mainDiv);};
 
     var info = document.createElement('div');
     info.style.fontSize = '14pt';
